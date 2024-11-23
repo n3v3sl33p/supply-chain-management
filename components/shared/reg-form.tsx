@@ -2,10 +2,31 @@
 import { FieldValues, SubmitHandler, useFormContext } from "react-hook-form";
 import RegFormField from "./field";
 import { MyForm } from "./my-form";
+import { register } from "@/services/auth";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 export const RegForm = () => {
   const form = useFormContext();
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
+  const [aboba, setAboba] = useState(0);
+  const router = useRouter();
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    try {
+      const response = await register(
+        data.firstName,
+        data.secondName,
+        data.patronymic,
+        data.email,
+        data.password
+      );
+      localStorage.setItem("token", response?.accessToken || "");
+      localStorage.setItem("refresh-token", response?.refreshToken || "");
+      router.push("/");
+    } catch (error) {
+      console.log("ОШИБКА ПРИ РЕГИСТРАЦИИ");
+    } finally {
+    }
+
+    // form.reset();
   };
 
   return (
