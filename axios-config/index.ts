@@ -1,10 +1,10 @@
 import { AuthResponse } from "@/models/auth-response";
 import axios from "axios";
 
-export const BASE_URL = "http://localhost:8080/api/v1/";
+export const BASE_URL = "http://195.133.25.86:8080/api/v1/";
 
 export const api = axios.create({
-  withCredentials: true,
+  // withCredentials: true,
   baseURL: BASE_URL,
 });
 

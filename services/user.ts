@@ -10,3 +10,10 @@ export const getUserData = async () => {
     throw error;
   }
 };
+// export const getAllUsers = async () => {
+//   try {
+//     const
+//   } catch (error) {
+//     throw error;
+//   }
+// }

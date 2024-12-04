@@ -26,7 +26,7 @@ export default function Home() {
   }, []);
   return (
     <div className="flex justify-center items-center h-screen flex-col">
-      АХУЕНЧИК
+      НОРМ
       <div>{user?.email}</div>
       <div>{user?.firstName}</div>
       {/* <Map /> */}
