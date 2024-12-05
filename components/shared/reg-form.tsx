@@ -4,10 +4,12 @@ import RegFormField from "./field";
 import { MyForm } from "./my-form";
 import { register } from "@/services/auth";
 import { useRouter } from "next/navigation";
-import toast, { Toaster } from "react-hot-toast";
-import { createPortal } from "react-dom";
+import toast from "react-hot-toast";
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 
 export const RegForm = () => {
+  const [showPassword, setShowPassword] = useState(false);
   const form = useFormContext();
   const router = useRouter();
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
@@ -64,13 +66,26 @@ export const RegForm = () => {
         name="email"
         inputType="email"
       />
-      <RegFormField
-        formControl={form.control}
-        label="Пароль"
-        placeholder="Пароль"
-        name="password"
-        inputType="password"
-      />
+      <div className="relative">
+        {showPassword ? (
+          <Eye
+            className="cursor-pointer right-0 absolute translate-y-10 mr-1"
+            onClick={() => setShowPassword(!showPassword)}
+          />
+        ) : (
+          <EyeOff
+            className="cursor-pointer right-0 absolute translate-y-10 mr-1"
+            onClick={() => setShowPassword(!showPassword)}
+          />
+        )}
+        <RegFormField
+          formControl={form.control}
+          label="Пароль"
+          placeholder="Пароль"
+          name="password"
+          inputType={showPassword ? "text" : "password"}
+        />
+      </div>
     </MyForm>
   );
 };

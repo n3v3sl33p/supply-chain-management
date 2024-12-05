@@ -11,7 +11,6 @@ import {
 
 interface MenuItem {
   title: string;
-  url: string;
   icon: React.ComponentType;
 }
 interface Props {
@@ -38,7 +37,7 @@ export const AppSidebar: React.FC<Props> = ({
                     isActive={index === selected}
                     onClick={() => setSelected(index)}
                   >
-                    <a href={item.url}>
+                    <a>
                       <item.icon />
                       <span>{item.title}</span>
                     </a>

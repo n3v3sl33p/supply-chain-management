@@ -5,8 +5,10 @@ import { MyForm } from "./my-form";
 import { login } from "@/services/auth";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 export const LoginForm = () => {
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const form = useFormContext();
 
@@ -36,12 +38,26 @@ export const LoginForm = () => {
         placeholder="email@mail.com"
         name="email"
       />
-      <Field
-        formControl={form.control}
-        label="Пароль"
-        placeholder="Пароль"
-        name="password"
-      />
+      <div className="relative">
+        {showPassword ? (
+          <Eye
+            className="cursor-pointer right-0 absolute translate-y-10 mr-1"
+            onClick={() => setShowPassword(!showPassword)}
+          />
+        ) : (
+          <EyeOff
+            className="cursor-pointer right-0 absolute translate-y-10 mr-1"
+            onClick={() => setShowPassword(!showPassword)}
+          />
+        )}
+        <Field
+          formControl={form.control}
+          label="Пароль"
+          placeholder="Пароль"
+          name="password"
+          inputType={showPassword ? "text" : "password"}
+        />
+      </div>
     </MyForm>
   );
 };
