@@ -29,6 +29,7 @@ export default function Home() {
       НОРМ
       <div>{user?.email}</div>
       <div>{user?.firstName}</div>
+      <div>{user?.id}</div>
       {/* <Map /> */}
     </div>
   );
