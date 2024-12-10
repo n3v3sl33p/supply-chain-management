@@ -1,36 +1,40 @@
 "use client";
-import { LoginForm } from "@/components/shared/login-form";
-import { RegForm } from "@/components/shared/reg-form";
-import { Map } from "@/components/shared/Map";
-import { useUserStore } from "@/store/useUserStore";
-import { useEffect } from "react";
-import { getUserData } from "@/services/user";
-import { useRouter } from "next/navigation";
-
-export default function Home() {
-  const router = useRouter();
-  const user = useUserStore((state) => state.user);
-  const setUser = useUserStore((state) => state.setUser);
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await getUserData();
-        setUser(response);
-      } catch (error) {
-        console.log(error);
-        router.push("/auth");
-      }
-    };
-
-    fetchUser();
-  }, []);
-  return (
-    <div className="flex justify-center items-center h-screen flex-col">
-      НОРМ
-      <div>{user?.email}</div>
-      <div>{user?.firstName}</div>
-      <div>{user?.id}</div>
-      {/* <Map /> */}
-    </div>
-  );
+import { CustomTrigger } from "@/components/shared/custom-trigger";
+import { ProfileInfo } from "@/components/shared/profile-info";
+import { AppSidebar } from "@/components/shared/sidebar";
+import { WarehouseInfo } from "@/components/shared/warehouse-info";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { User, Warehouse } from "lucide-react";
+import { useState } from "react";
+interface Props {
+  className?: string;
 }
+
+const MenuItems = [
+  {
+    title: "Профиль",
+    icon: User,
+  },
+  {
+    title: "Мой склад",
+    icon: Warehouse,
+  },
+];
+const Home: React.FC<Props> = ({ className }) => {
+  const [selected, setSelected] = useState(0);
+  return (
+    <SidebarProvider>
+      <AppSidebar
+        items={MenuItems}
+        selected={selected}
+        setSelected={setSelected}
+      />
+      <CustomTrigger />
+      <div className="m-4">
+        {selected === 0 && <ProfileInfo />}
+        {selected === 1 && <WarehouseInfo />}
+      </div>
+    </SidebarProvider>
+  );
+};
+export default Home;

@@ -1,5 +1,6 @@
 import { AuthResponse } from "@/models/auth-response";
 import axios from "axios";
+import { redirect } from "next/navigation";
 
 export const BASE_URL = "http://195.133.25.86:8080/api/v1/";
 
@@ -32,7 +33,7 @@ api.interceptors.response.use(
         return api.request(req);
       } catch (error) {
         console.log("НЕ АВТОРИЗОВАН");
-        throw error;
+        redirect("/auth");
       }
     }
   }

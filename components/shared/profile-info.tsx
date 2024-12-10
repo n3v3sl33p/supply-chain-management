@@ -6,10 +6,13 @@ import { Button } from "../ui/button";
 import { Eye, EyeOff } from "lucide-react";
 import { changeUserData } from "@/services/user";
 import toast from "react-hot-toast";
+import { Skeleton } from "../ui/skeleton";
 
 interface Props {
   className?: string;
 }
+
+const INPUT_COUNT = 5;
 
 export const ProfileInfo: React.FC<Props> = ({ className }) => {
   const [canChange, setCanChange] = useState(false);
@@ -39,8 +42,20 @@ export const ProfileInfo: React.FC<Props> = ({ className }) => {
     }
   }, [user]);
 
+  const arr = new Array(INPUT_COUNT).fill(0);
+
   if (!user) {
-    return <div>Загрузка...</div>;
+    return (
+      <div>
+        <h2 className="text-2xl mb-5">Профиль</h2>
+        {arr.map((_, index) => (
+          <Skeleton
+            className="h-[40px] w-[200px] rounded-md mb-5"
+            key={index}
+          />
+        ))}
+      </div>
+    );
   }
 
   return (

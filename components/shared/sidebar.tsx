@@ -1,13 +1,24 @@
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { ChevronUp, User2 } from "lucide-react";
+import { useUserStore } from "@/store/useUserStore";
+import { redirect } from "next/navigation";
 
 interface MenuItem {
   title: string;
@@ -24,6 +35,7 @@ export const AppSidebar: React.FC<Props> = ({
   selected,
   setSelected,
 }) => {
+  const user = useUserStore((state) => state.user);
   return (
     <Sidebar variant="floating">
       <SidebarContent>
@@ -48,6 +60,37 @@ export const AppSidebar: React.FC<Props> = ({
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <SidebarMenuButton>
+                  <User2 /> {user?.email}
+                  <ChevronUp className="ml-auto" />
+                </SidebarMenuButton>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                side="top"
+                className="w-[--radix-popper-anchor-width]"
+              >
+                <DropdownMenuItem>
+                  <span
+                    className="text-red-600"
+                    onClick={() => {
+                      localStorage.removeItem("token");
+                      localStorage.removeItem("refresh-token");
+                      redirect("/auth");
+                    }}
+                  >
+                    Выйти
+                  </span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
     </Sidebar>
   );
 };
